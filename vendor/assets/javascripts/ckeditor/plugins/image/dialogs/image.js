@@ -560,6 +560,152 @@
                             id: 'basic',
                             type: 'vbox',
                             children: [
+														//image size box start
+															{
+														  	type: 'hbox',
+														                                    requiredContent: 'img{width,height}',
+														                                    widths: [ '50%', '50%' ],
+														                                    children: [
+														                                        {
+														                                            type: 'vbox',
+														                                            padding: 1,
+														                                            children: [
+														                                                {
+														                                                    type: 'text',
+														                                                    width: '45px',
+														                                                    id: 'txtWidth',
+														                                                    label: editor.lang.common.width,
+														                                                    onKeyUp: onSizeChange,
+														                                                    onChange: function() {
+														                                                        commitInternally.call( this, 'advanced:txtdlgGenStyle' );
+														                                                    },
+														                                                    validate: function() {
+														                                                        var aMatch = this.getValue().match( regexGetSizeOrEmpty ),
+														                                                            isValid = !!( aMatch && parseInt( aMatch[ 1 ], 10 ) !== 0 );
+														                                                        if ( !isValid )
+														                                                            alert( editor.lang.common.invalidWidth );
+														                                                        return isValid;
+														                                                    },
+														                                                    setup: setupDimension,
+														                                                    commit: function( type, element, internalCommit ) {
+														                                                        var value = this.getValue();
+														                                                        if ( type == IMAGE ) {
+														                                                            if ( value )
+														                                                                element.setStyle( 'width', CKEDITOR.tools.cssLength( value ) );
+														                                                            else
+														                                                                element.removeStyle( 'width' );
+
+														                                                            !internalCommit && element.removeAttribute( 'width' );
+														                                                        } else if ( type == PREVIEW ) {
+														                                                            var aMatch = value.match( regexGetSize );
+														                                                            if ( !aMatch ) {
+														                                                                var oImageOriginal = this.getDialog().originalElement;
+														                                                                if ( oImageOriginal.getCustomData( 'isReady' ) == 'true' )
+														                                                                    element.setStyle( 'width', oImageOriginal.$.width + 'px' );
+														                                                            } else
+														                                                                element.setStyle( 'width', CKEDITOR.tools.cssLength( value ) );
+														                                                        } else if ( type == CLEANUP ) {
+														                                                            element.removeAttribute( 'width' );
+														                                                            element.removeStyle( 'width' );
+														                                                        }
+														                                                    }
+														                                                },
+														                                                {
+														                                                    type: 'text',
+														                                                    id: 'txtHeight',
+														                                                    width: '45px',
+														                                                    label: editor.lang.common.height,
+														                                                    onKeyUp: onSizeChange,
+														                                                    onChange: function() {
+														                                                        commitInternally.call( this, 'advanced:txtdlgGenStyle' );
+														                                                    },
+														                                                    validate: function() {
+														                                                        var aMatch = this.getValue().match( regexGetSizeOrEmpty ),
+														                                                            isValid = !!( aMatch && parseInt( aMatch[ 1 ], 10 ) !== 0 );
+														                                                        if ( !isValid )
+														                                                            alert( editor.lang.common.invalidHeight );
+														                                                        return isValid;
+														                                                    },
+														                                                    setup: setupDimension,
+														                                                    commit: function( type, element, internalCommit ) {
+														                                                        var value = this.getValue();
+														                                                        if ( type == IMAGE ) {
+														                                                            if ( value )
+														                                                                element.setStyle( 'height', CKEDITOR.tools.cssLength( value ) );
+														                                                            else
+														                                                                element.removeStyle( 'height' );
+
+														                                                            !internalCommit && element.removeAttribute( 'height' );
+														                                                        } else if ( type == PREVIEW ) {
+														                                                            var aMatch = value.match( regexGetSize );
+														                                                            if ( !aMatch ) {
+														                                                                var oImageOriginal = this.getDialog().originalElement;
+														                                                                if ( oImageOriginal.getCustomData( 'isReady' ) == 'true' )
+														                                                                    element.setStyle( 'height', oImageOriginal.$.height + 'px' );
+														                                                            } else
+														                                                                element.setStyle( 'height', CKEDITOR.tools.cssLength( value ) );
+														                                                        } else if ( type == CLEANUP ) {
+														                                                            element.removeAttribute( 'height' );
+														                                                            element.removeStyle( 'height' );
+														                                                        }
+														                                                    }
+														                                                }
+														                                            ]
+														                                        },
+														                                        {
+														                                            id: 'ratioLock',
+														                                            type: 'html',
+														                                            style: 'margin-top:30px;width:40px;height:40px;',
+														                                            onLoad: function() {
+														                                                // Activate Reset button
+														                                                var resetButton = CKEDITOR.document.getById( btnResetSizeId ),
+														                                                    ratioButton = CKEDITOR.document.getById( btnLockSizesId );
+														                                                if ( resetButton ) {
+														                                                    resetButton.on( 'click', function( evt ) {
+														                                                        resetSize( this );
+														                                                        evt.data && evt.data.preventDefault();
+														                                                    }, this.getDialog() );
+														                                                    resetButton.on( 'mouseover', function() {
+														                                                        this.addClass( 'cke_btn_over' );
+														                                                    }, resetButton );
+														                                                    resetButton.on( 'mouseout', function() {
+														                                                        this.removeClass( 'cke_btn_over' );
+														                                                    }, resetButton );
+														                                                }
+														                                                // Activate (Un)LockRatio button
+														                                                if ( ratioButton ) {
+														                                                    ratioButton.on( 'click', function( evt ) {
+														                                                        var locked = switchLockRatio( this ),
+														                                                            oImageOriginal = this.originalElement,
+														                                                            width = this.getValueOf( 'info', 'txtWidth' );
+
+														                                                        if ( oImageOriginal.getCustomData( 'isReady' ) == 'true' && width ) {
+														                                                            var height = oImageOriginal.$.height / oImageOriginal.$.width * width;
+														                                                            if ( !isNaN( height ) ) {
+														                                                                this.setValueOf( 'info', 'txtHeight', Math.round( height ) );
+														                                                                updatePreview( this );
+														                                                            }
+														                                                        }
+														                                                        evt.data && evt.data.preventDefault();
+														                                                    }, this.getDialog() );
+														                                                    ratioButton.on( 'mouseover', function() {
+														                                                        this.addClass( 'cke_btn_over' );
+														                                                    }, ratioButton );
+														                                                    ratioButton.on( 'mouseout', function() {
+														                                                        this.removeClass( 'cke_btn_over' );
+														                                                    }, ratioButton );
+														                                                }
+														                                            },
+														                                            html: '<div>' +
+														                                                '<a href="javascript:void(0)" tabindex="-1" title="' + editor.lang.image.lockRatio +
+														                                                '" class="cke_btn_locked" id="' + btnLockSizesId + '" role="checkbox"><span class="cke_icon"></span><span class="cke_label">' + editor.lang.image.lockRatio + '</span></a>' +
+														                                                '<a href="javascript:void(0)" tabindex="-1" title="' + editor.lang.image.resetSize +
+														                                                '" class="cke_btn_reset" id="' + btnResetSizeId + '" role="button"><span class="cke_label">' + editor.lang.image.resetSize + '</span></a>' +
+														                                                '</div>'
+														                                        }
+														                                    ]
+														                                },
+																														//image size box end
                                 {
                                 type: 'vbox',
                                 padding: 1,
