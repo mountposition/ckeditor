@@ -632,14 +632,456 @@ n;(n=a.getCustomData("activePanel"))&&n.onHide&&n.onHide.call(this,1);a.setCusto
 0,this);this.visible=1;this.onShow&&this.onShow.call(this)},focus:function(){if(CKEDITOR.env.webkit){var a=CKEDITOR.document.getActive();!a.equals(this._.iframe)&&a.$.blur()}(this._.lastFocused||this._.iframe.getFrameDocument().getWindow()).focus()},blur:function(){var a=this._.iframe.getFrameDocument().getActive();a.is("a")&&(this._.lastFocused=a)},hide:function(a){if(this.visible&&(!this.onHide||!0!==this.onHide.call(this))){this.hideChild();CKEDITOR.env.gecko&&this._.iframe.getFrameDocument().$.activeElement.blur();
 this.element.setStyle("display","none");this.visible=0;this.element.getFirst().removeCustomData("activePanel");if(a=a&&this._.returnFocus)CKEDITOR.env.webkit&&a.type&&a.getWindow().$.focus(),a.focus();delete this._.lastFocused;this._.editor.fire("panelHide",this)}},allowBlur:function(a){var b=this._.panel;void 0!=a&&(b.allowBlur=a);return b.allowBlur},showAsChild:function(a,b,c,g,f,h){this._.activeChild==a&&a._.panel._.offsetParentId==c.getId()||(this.hideChild(),a.onHide=CKEDITOR.tools.bind(function(){CKEDITOR.tools.setTimeout(function(){this._.focused||
 this.hide()},0,this)},this),this._.activeChild=a,this._.focused=!1,a.showBlock(b,c,g,f,h),this.blur(),(CKEDITOR.env.ie7Compat||CKEDITOR.env.ie6Compat)&&setTimeout(function(){a.element.getChild(0).$.style.cssText+=""},100))},hideChild:function(a){var b=this._.activeChild;b&&(delete b.onHide,delete this._.activeChild,b.hide(),a&&this.focus())}}});CKEDITOR.on("instanceDestroyed",function(){var a=CKEDITOR.tools.isEmpty(CKEDITOR.instances),b;for(b in g){var c=g[b];a?c.destroy():c.element.hide()}a&&(g=
-{})})})();CKEDITOR.plugins.add("colorbutton",{requires:"panelbutton,floatpanel",init:function(c){function m(l,g,e,h){var j=new CKEDITOR.style(i["colorButton_"+g+"Style"]),k=CKEDITOR.tools.getNextId()+"_colorBox";c.ui.add(l,CKEDITOR.UI_PANELBUTTON,{label:e,title:e,modes:{wysiwyg:1},editorFocus:0,toolbar:"colors,"+h,allowedContent:j,requiredContent:j,panel:{css:CKEDITOR.skin.getPath("editor"),attributes:{role:"listbox","aria-label":f.panelTitle}},onBlock:function(a,b){b.autoSize=!0;b.element.addClass("cke_colorblock");
+{})})})();
+/*
+CKEDITOR.plugins.add("colorbutton",{requires:"panelbutton,floatpanel",init:function(c){function m(l,g,e,h){var j=new CKEDITOR.style(i["colorButton_"+g+"Style"]),k=CKEDITOR.tools.getNextId()+"_colorBox";c.ui.add(l,CKEDITOR.UI_PANELBUTTON,{label:e,title:e,modes:{wysiwyg:1},editorFocus:0,toolbar:"colors,"+h,allowedContent:j,requiredContent:j,panel:{css:CKEDITOR.skin.getPath("editor"),attributes:{role:"listbox","aria-label":f.panelTitle}},onBlock:function(a,b){b.autoSize=!0;b.element.addClass("cke_colorblock");
 b.element.setHtml(o(a,g,k));b.element.getDocument().getBody().setStyle("overflow","hidden");CKEDITOR.ui.fire("ready",this);var d=b.keys,e="rtl"==c.lang.dir;d[e?37:39]="next";d[40]="next";d[9]="next";d[e?39:37]="prev";d[38]="prev";d[CKEDITOR.SHIFT+9]="prev";d[32]="click"},refresh:function(){c.activeFilter.check(j)||this.setState(CKEDITOR.TRISTATE_DISABLED)},onOpen:function(){var a=c.getSelection(),a=a&&a.getStartElement(),a=c.elementPath(a),b;if(a){a=a.block||a.blockLimit||c.document.getBody();do b=
 a&&a.getComputedStyle("back"==g?"background-color":"color")||"transparent";while("back"==g&&"transparent"==b&&a&&(a=a.getParent()));if(!b||"transparent"==b)b="#ffffff";this._.panel._.iframe.getFrameDocument().getById(k).setStyle("background-color",b);return b}}})}function o(l,g,e){var h=[],j=i.colorButton_colors.split(","),k=CKEDITOR.tools.addFunction(function(a,b){if("?"==a){var e=arguments.callee,d=function(a){this.removeListener("ok",d);this.removeListener("cancel",d);"ok"==a.name&&e(this.getContentElement("picker",
 "selectedColor").getValue(),b)};c.openDialog("colordialog",function(){this.on("ok",d);this.on("cancel",d)})}else{c.focus();l.hide();c.fire("saveSnapshot");c.removeStyle(new CKEDITOR.style(i["colorButton_"+b+"Style"],{color:"inherit"}));if(a){var f=i["colorButton_"+b+"Style"];f.childRule="back"==b?function(a){return n(a)}:function(a){return!(a.is("a")||a.getElementsByTag("a").count())||n(a)};c.applyStyle(new CKEDITOR.style(f,{color:a}))}c.fire("saveSnapshot")}});h.push('<a class="cke_colorauto" _cke_focus=1 hidefocus=true title="',
 f.auto,'" onclick="CKEDITOR.tools.callFunction(',k,",null,'",g,"');return false;\" href=\"javascript:void('",f.auto,'\')" role="option"><table role="presentation" cellspacing=0 cellpadding=0 width="100%"><tr><td><span class="cke_colorbox" id="',e,'"></span></td><td colspan=7 align=center>',f.auto,'</td></tr></table></a><table role="presentation" cellspacing=0 cellpadding=0 width="100%">');for(e=0;e<j.length;e++){0===e%8&&h.push("</tr><tr>");var a=j[e].split("/"),b=a[0],d=a[1]||b;a[1]||(b="#"+b.replace(/^(.)(.)(.)$/,
 "$1$1$2$2$3$3"));a=c.lang.colorbutton.colors[d]||d;h.push('<td><a class="cke_colorbox" _cke_focus=1 hidefocus=true title="',a,'" onclick="CKEDITOR.tools.callFunction(',k,",'",b,"','",g,"'); return false;\" href=\"javascript:void('",a,'\')" role="option"><span class="cke_colorbox" style="background-color:#',d,'"></span></a></td>')}(c.plugins.colordialog&&void 0===i.colorButton_enableMore||i.colorButton_enableMore)&&h.push('</tr><tr><td colspan=8 align=center><a class="cke_colormore" _cke_focus=1 hidefocus=true title="',
 f.more,'" onclick="CKEDITOR.tools.callFunction(',k,",'?','",g,"');return false;\" href=\"javascript:void('",f.more,"')\"",' role="option">',f.more,"</a></td>");h.push("</tr></table>");return h.join("")}function n(c){return"false"==c.getAttribute("contentEditable")||c.getAttribute("data-nostyle")}var i=c.config,f=c.lang.colorbutton;CKEDITOR.env.hc||(m("TextColor","fore",f.textColorTitle,10),m("BGColor","back",f.bgColorTitle,20))}});CKEDITOR.config.colorButton_colors="000,800000,8B4513,2F4F4F,008080,000080,4B0082,696969,B22222,A52A2A,DAA520,006400,40E0D0,0000CD,800080,808080,F00,FF8C00,FFD700,008000,0FF,00F,EE82EE,A9A9A9,FFA07A,FFA500,FFFF00,00FF00,AFEEEE,ADD8E6,DDA0DD,D3D3D3,FFF0F5,FAEBD7,FFFFE0,F0FFF0,F0FFFF,F0F8FF,E6E6FA,FFF";
-CKEDITOR.config.colorButton_foreStyle={element:"span",styles:{color:"#(color)"},overrides:[{element:"font",attributes:{color:null}}]};CKEDITOR.config.colorButton_backStyle={element:"span",styles:{"background-color":"#(color)"}};CKEDITOR.plugins.colordialog={requires:"dialog",init:function(b){var c=new CKEDITOR.dialogCommand("colordialog");c.editorFocus=!1;b.addCommand("colordialog",c);CKEDITOR.dialog.add("colordialog",this.path+"dialogs/colordialog.js");b.getColorFromDialog=function(c,f){var d=function(a){this.removeListener("ok",d);this.removeListener("cancel",d);a="ok"==a.name?this.getValueOf("picker","selectedColor"):null;c.call(f,a)},e=function(a){a.on("ok",d);a.on("cancel",d)};b.execCommand("colordialog");if(b._.storedDialogs&&
+CKEDITOR.config.colorButton_foreStyle={element:"span",styles:{color:"#(color)"},overrides:[{element:"font",attributes:{color:null}}]};CKEDITOR.config.colorButton_backStyle={element:"span",styles:{"background-color":"#(color)"}};
+*/
+CKEDITOR.plugins.add( 'colorbutton', {
+        requires: 'panelbutton,floatpanel',
+        icons: 'bgcolor,textcolor', // %REMOVE_LINE_CORE%
+        init: function( editor ) {
+            var config = editor.config,
+                lang = editor.lang.colorbutton;
+
+            var clickFn;
+
+            if ( !CKEDITOR.env.hc ) {
+                addButton( 'TextColor', 'fore', lang.textColorTitle, 10 );
+                addButton( 'BGColor', 'back', lang.bgColorTitle, 20 );
+            }
+
+            function addButton( name, type, title, order ) {
+                var style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ] ),
+                    colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox';
+
+                editor.ui.add( name, CKEDITOR.UI_PANELBUTTON, {
+                    label: title,
+                    title: title,
+                    modes: { wysiwyg: 1 },
+                    editorFocus: 0,
+                    toolbar: 'colors,' + order,
+                    allowedContent: style,
+                    requiredContent: style,
+
+                    panel: {
+                        css: CKEDITOR.skin.getPath( 'editor' ),
+                        attributes: { role: 'listbox', 'aria-label': lang.panelTitle }
+                    },
+
+                    onBlock: function( panel, block ) {
+                        block.autoSize = true;
+                        block.element.addClass( 'cke_colorblock' );
+                        block.element.setHtml( renderColors( panel, type, colorBoxId ) );
+                        // The block should not have scrollbars (#5933, #6056)
+                        block.element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
+
+                        CKEDITOR.ui.fire( 'ready', this );
+
+                        var keys = block.keys;
+                        var rtl = editor.lang.dir == 'rtl';
+                        keys[ rtl ? 37 : 39 ] = 'next'; // ARROW-RIGHT
+                        keys[ 40 ] = 'next'; // ARROW-DOWN
+                        keys[ 9 ] = 'next'; // TAB
+                        keys[ rtl ? 39 : 37 ] = 'prev'; // ARROW-LEFT
+                        keys[ 38 ] = 'prev'; // ARROW-UP
+                        keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
+                        keys[ 32 ] = 'click'; // SPACE
+                    },
+
+                    refresh: function() {
+                        if ( !editor.activeFilter.check( style ) )
+                            this.setState( CKEDITOR.TRISTATE_DISABLED );
+                    },
+
+                    // The automatic colorbox should represent the real color (#6010)
+                    onOpen: function() {
+
+                        var selection = editor.getSelection(),
+                            block = selection && selection.getStartElement(),
+                            path = editor.elementPath( block ),
+                            color;
+
+                        if ( !path )
+                            return;
+
+                        // Find the closest block element.
+                        block = path.block || path.blockLimit || editor.document.getBody();
+
+                        // The background color might be transparent. In that case, look up the color in the DOM tree.
+                        do {
+                            color = block && block.getComputedStyle( type == 'back' ? 'background-color' : 'color' ) || 'transparent';
+                        }
+                        while ( type == 'back' && color == 'transparent' && block && ( block = block.getParent() ) );
+
+                        // The box should never be transparent.
+                        if ( !color || color == 'transparent' )
+                            color = '#ffffff';
+
+                        this._.panel._.iframe.getFrameDocument().getById( colorBoxId ).setStyle( 'background-color', color );
+
+                        return color;
+                    }
+                } );
+            }
+
+
+            function renderColors( panel, type, colorBoxId ) {
+                var output = [],
+                    colors = config.colorButton_colors.split( ',' );
+
+                var clickFn = CKEDITOR.tools.addFunction( function( color, type ) {
+                    if ( color == '?' ) {
+                        var applyColorStyle = arguments.callee;
+
+                        function onColorDialogClose( evt ) {
+                            this.removeListener( 'ok', onColorDialogClose );
+                            this.removeListener( 'cancel', onColorDialogClose );
+
+                            evt.name == 'ok' && applyColorStyle( this.getContentElement( 'picker', 'selectedColor' ).getValue(), type );
+                        }
+
+                        editor.openDialog( 'colordialog', function() {
+                            this.on( 'ok', onColorDialogClose );
+                            this.on( 'cancel', onColorDialogClose );
+                        } );
+
+                        return;
+                    }
+
+                    editor.focus();
+
+                    panel.hide();
+
+                    editor.fire( 'saveSnapshot' );
+
+                    // Clean up any conflicting style within the range.
+                    editor.removeStyle( new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: 'inherit' } ) );
+
+                    if ( color ) {
+                        var colorStyle = config[ 'colorButton_' + type + 'Style' ];
+
+                        colorStyle.childRule = type == 'back' ?
+                            function( element ) {
+                                // It's better to apply background color as the innermost style. (#3599)
+                                // Except for "unstylable elements". (#6103)
+                                return isUnstylable( element );
+                            } : function( element ) {
+                            // Fore color style must be applied inside links instead of around it. (#4772,#6908)
+                            return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
+                        };
+
+                        editor.applyStyle( new CKEDITOR.style( colorStyle, { color: color } ) );
+                    }
+
+                    editor.fire( 'saveSnapshot' );
+                } );
+
+                // Render the "Automatic" button.
+                output.push( '<a class="cke_colorauto" _cke_focus=1 hidefocus=true' +
+                    ' title="', lang.auto, '"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',null,\'', type, '\');return false;"' +
+                    ' href="javascript:void(\'', lang.auto, '\')"' +
+                    ' role="option">' +
+                    '<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' +
+                    '<tr>' +
+                    '<td>' +
+                    '<span class="cke_colorbox" id="', colorBoxId, '"></span>' +
+                    '</td>' +
+                    '<td colspan=8 align=center>', lang.auto, '</td>' +
+                    '</tr>' +
+                    '</table>' +
+                    '</a>' +
+                    '<table role="presentation" cellspacing=2 cellpadding=0 style="margin-top:5px;">' );
+
+                // Render the color boxes.
+//                for ( var i = 0; i < colors.length; i++ ) {
+//                    if ( ( i % 8 ) === 0 )
+//                        output.push( '</tr><tr>' );
+//
+//                    var parts = colors[ i ].split( '/' ),
+//                        colorName = parts[ 0 ],
+//                        colorCode = parts[ 1 ] || colorName;
+//
+//                    // The data can be only a color code (without #) or colorName + color code
+//                    // If only a color code is provided, then the colorName is the color with the hash
+//                    // Convert the color from RGB to RRGGBB for better compatibility with IE and <font>. See #5676
+//                    if ( !parts[ 1 ] )
+//                        colorName = '#' + colorName.replace( /^(.)(.)(.)$/, '$1$1$2$2$3$3' );
+//
+//                    var colorLabel = editor.lang.colorbutton.colors[ colorCode ] || colorCode;
+//                    output.push( '<td>' +
+//                        '<a class="cke_colorbox" _cke_focus=1 hidefocus=true' +
+//                        ' title="', colorLabel, '"' +
+//                        ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'', colorName, '\',\'', type, '\'); return false;"' +
+//                        ' href="javascript:void(\'', colorLabel, '\')"' +
+//                        ' role="option">' +
+//                        '<span class="cke_colorbox" style="background-color:#', colorCode, '"></span>' +
+//                        '</a>' +
+//                        '</td>' );
+//                }
+                output.push('<tr><td></td>' +
+                    '<td style="text-align:center;"><div style="width:50px;">News</div></td>' +
+                    '<td style="text-align:center;"><div style="width:50px;">Data</div></td>' +
+                    '<td style="text-align:center;"><div style="width:50px;">Column</div></td>' +
+                    '<td style="text-align:center;"><div style="width:50px;">Feature</div></td>' +
+                    '<td style="text-align:center;"><div style="width:50px;">People</div></td></tr>');
+                output.push('<tr><td><div style="width:100px;">大見出し、リンク</div></td>');
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#EB1F85"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#EB1F85\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#EB1F85\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#EB1F85;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#9119B6"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#9119B6\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#9119B6\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#9119B6;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#1FB8EB"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#1FB8EB\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#1FB8EB\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#1FB8EB;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#49BB00"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#49BB00\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#49BB00\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#49BB00;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#EB5B00"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#EB5B00\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#EB5B00\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#EB5B00;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+                output.push('</tr><tr>');
+
+                output.push('<tr><td>中見出し</td>');
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#D70B71"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#D70B71\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#D70B71\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#D70B71;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#7D0782"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#7D0782\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#7D0782\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#7D0782;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#0BA4D7"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#0BA4D7\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#0BA4D7\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#0BA4D7;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#35A700"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#35A700\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#35A700\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#35A700;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#D74700"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#D74700\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#D74700\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#D74700;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+                output.push('</tr><tr>');
+
+                output.push('<tr><td>小見出し</td>');
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#C3005D"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#C3005D\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#C3005D\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#C3005D;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#69006E"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#69006E\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#69006E\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#69006E;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#0090C3"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#0090C3\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#0090C3\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#0090C3;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#219300"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#219300\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#219300\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#219300;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#C33300"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#C33300\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#C33300\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#C33300;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+                output.push('</tr><tr>');
+
+                output.push('<table role="presentation" cellspacing=2 cellpadding=0 style="margin-top:5px;">');
+                output.push('<tr><td><div style="width:112px;">グレースケール</div></td>');
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#000000"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#000000\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#000000\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#000000;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#333333"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#333333\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#333333\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#333333;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#666666"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#666666\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#666666\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#666666;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#999999"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#999999\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#999999\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#999999;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#cccccc"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#cccccc\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#cccccc\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#cccccc;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#E5E5E5"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#E5E5E5\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#E5E5E5\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#E5E5E5;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#EDEDED"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#EDEDED\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#EDEDED\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#EDEDED;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#FFFFFF"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#FFFFFF\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#FFFFFF\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#FFFFFF;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+                output.push('</tr><tr>');
+
+                output.push('<table role="presentation" cellspacing=4 cellpadding=0 width="100%" style="margin-top:5px;">');
+                output.push('<tr><td></td>' +
+                    '<td style="text-align:center;"><div style="width:40px;font-size:8px;">インタビュアー</div></td>' +
+                    '<td style="text-align:center;"><div style="width:40px;">1人目</div></td>' +
+                    '<td style="text-align:center;"><div style="width:40px;">2人目</div></td>' +
+                    '<td style="text-align:center;"><div style="width:40px;">3人目</div></td>' +
+                    '<td style="text-align:center;"><div style="width:40px;">4人目</div></td>' +
+                    '<td style="text-align:center;"><div style="width:40px;">5人目</div></td>' +
+                    '<td style="text-align:center;"><div style="width:40px;">6人目</div></td>' +
+                    '<td style="text-align:center;"><div style="width:40px;">7人目</div></td></tr>');
+                output.push('<tr><td nowrap>インタビュー各人<br/>※名前部分Bold処理</td>');
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#000000"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#000000\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#000000\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#000000;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#1FB8EB"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#1FB8EB\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#1FB8EB\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#1FB8EB;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#3238B4"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#3238B4\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#3238B4\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#3238B4;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#911B96"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#911B96\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#911B96\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#911B96;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#EB1F85"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#EB1F85\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#EB1F85\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#EB1F85;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#EB5B00"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#EB5B00\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#EB5B00\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#EB5B00;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#EBC900"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#EBC900\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#EBC900\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#EBC900;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+
+                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#84C100"' +
+                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#84C100\',\'', type, '\'); return false;"' +
+                    ' href="javascript:void(\'#84C100\')"' +
+                    ' role="option">' +
+                    '<span class="cke_colorbox" style="background-color:#84C100;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+                output.push('</tr><tr>');
+
+                // Render the "More Colors" button.
+                if ( editor.plugins.colordialog && config.colorButton_enableMore === undefined || config.colorButton_enableMore ) {
+                    output.push( '</tr>' +
+                        '<tr>' +
+                        '<td colspan=9 align=center>' +
+                        '<a class="cke_colormore" _cke_focus=1 hidefocus=true' +
+                        ' title="', lang.more, '"' +
+                        ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'?\',\'', type, '\');return false;"' +
+                        ' href="javascript:void(\'', lang.more, '\')"', ' role="option">', lang.more, '</a>' +
+                        '</td>' ); // tr is later in the code.
+                }
+
+                output.push( '</tr></table>' );
+
+                return output.join( '' );
+            }
+
+            function isUnstylable( ele ) {
+                return ( ele.getAttribute( 'contentEditable' ) == 'false' ) || ele.getAttribute( 'data-nostyle' );
+            }
+        }
+    } );
+
+    CKEDITOR.config.colorButton_colors = '000,800000,8B4513,2F4F4F,008080,000080,4B0082,696969,' +
+        'B22222,A52A2A,DAA520,006400,40E0D0,0000CD,800080,808080,' +
+        'F00,FF8C00,FFD700,008000,0FF,00F,EE82EE,A9A9A9,' +
+        'FFA07A,FFA500,FFFF00,00FF00,AFEEEE,ADD8E6,DDA0DD,D3D3D3,' +
+        'FFF0F5,FAEBD7,FFFFE0,F0FFF0,F0FFFF,F0F8FF,E6E6FA,FFF';
+
+    CKEDITOR.config.colorButton_foreStyle = {
+        element: 'span',
+        styles: { 'color': '#(color)' },
+        overrides: [ {
+            element: 'font', attributes: { 'color': null }
+        } ]
+    };
+
+    CKEDITOR.config.colorButton_backStyle = {
+        element: 'span',
+        styles: { 'background-color': '#(color)' }
+    };
+
+CKEDITOR.plugins.colordialog={requires:"dialog",init:function(b){var c=new CKEDITOR.dialogCommand("colordialog");c.editorFocus=!1;b.addCommand("colordialog",c);CKEDITOR.dialog.add("colordialog",this.path+"dialogs/colordialog.js");b.getColorFromDialog=function(c,f){var d=function(a){this.removeListener("ok",d);this.removeListener("cancel",d);a="ok"==a.name?this.getValueOf("picker","selectedColor"):null;c.call(f,a)},e=function(a){a.on("ok",d);a.on("cancel",d)};b.execCommand("colordialog");if(b._.storedDialogs&&
 b._.storedDialogs.colordialog)e(b._.storedDialogs.colordialog);else CKEDITOR.on("dialogDefinition",function(a){if("colordialog"==a.data.name){var b=a.data.definition;a.removeListener();b.onLoad=CKEDITOR.tools.override(b.onLoad,function(a){return function(){e(this);b.onLoad=a;"function"==typeof a&&a.call(this)}})}})}}};CKEDITOR.plugins.add("colordialog",CKEDITOR.plugins.colordialog);(function(){CKEDITOR.plugins.add("templates",{requires:"dialog",init:function(a){CKEDITOR.dialog.add("templates",CKEDITOR.getUrl(this.path+"dialogs/templates.js"));a.addCommand("templates",new CKEDITOR.dialogCommand("templates"));a.ui.addButton&&a.ui.addButton("Templates",{label:a.lang.templates.button,command:"templates",toolbar:"doctools,10"})}});var c={},f={};CKEDITOR.addTemplates=function(a,d){c[a]=d};CKEDITOR.getTemplates=function(a){return c[a]};CKEDITOR.loadTemplates=function(a,d){for(var e=
 [],b=0,c=a.length;b<c;b++)f[a[b]]||(e.push(a[b]),f[a[b]]=1);e.length?CKEDITOR.scriptLoader.load(e,d):setTimeout(d,0)}})();CKEDITOR.config.templates_files=[CKEDITOR.getUrl("plugins/templates/templates/default.js")];CKEDITOR.config.templates_replaceContent=!0;CKEDITOR.plugins.add("menu",{requires:"floatpanel",beforeInit:function(k){for(var g=k.config.menu_groups.split(","),m=k._.menuGroups={},l=k._.menuItems={},a=0;a<g.length;a++)m[g[a]]=a+1;k.addMenuGroup=function(b,a){m[b]=a||100};k.addMenuItem=function(a,c){m[c.group]&&(l[a]=new CKEDITOR.menuItem(this,a,c))};k.addMenuItems=function(a){for(var c in a)this.addMenuItem(c,a[c])};k.getMenuItem=function(a){return l[a]};k.removeMenuItem=function(a){delete l[a]}}});
 (function(){function k(a){a.sort(function(a,c){return a.group<c.group?-1:a.group>c.group?1:a.order<c.order?-1:a.order>c.order?1:0})}var g='<span class="cke_menuitem"><a id="{id}" class="cke_menubutton cke_menubutton__{name} cke_menubutton_{state} {cls}" href="{href}" title="{title}" tabindex="-1"_cke_focus=1 hidefocus="true" role="menuitem" aria-haspopup="{hasPopup}" aria-disabled="{disabled}"';if(CKEDITOR.env.opera||CKEDITOR.env.gecko&&CKEDITOR.env.mac)g+=' onkeypress="return false;"';CKEDITOR.env.gecko&&
