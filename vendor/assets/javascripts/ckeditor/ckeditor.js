@@ -990,53 +990,53 @@ CKEDITOR.plugins.add( 'colorbutton', {
                     '<td style="text-align:center;"><div style="width:40px;">6人目</div></td>' +
                     '<td style="text-align:center;"><div style="width:40px;">7人目</div></td></tr>');
                 output.push('<tr><td nowrap>インタビュー各人<br/>※名前部分Bold処理</td>');
-                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#000000"' +
-                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#000000\',\'', type, '\'); return false;"' +
-                    ' href="javascript:void(\'#000000\')"' +
-                    ' role="option">' +
-                    '<span class="cke_colorbox" style="background-color:#000000;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+								output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#000000"' +
+								                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#000000\',\'', 'foreB', '\'); return false;"' +
+								                    ' href="javascript:void(\'#000000\')"' +
+								                    ' role="option">' +
+								                    '<span class="cke_colorbox" style="background-color:#000000;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
 
-                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#1FB8EB"' +
-                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#1FB8EB\',\'', type, '\'); return false;"' +
-                    ' href="javascript:void(\'#1FB8EB\')"' +
-                    ' role="option">' +
-                    '<span class="cke_colorbox" style="background-color:#1FB8EB;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+								                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#1FB8EB"' +
+								                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#1FB8EB\',\'', 'foreB', '\'); return false;"' +
+								                    ' href="javascript:void(\'#1FB8EB\')"' +
+								                    ' role="option">' +
+								                    '<span class="cke_colorbox" style="background-color:#1FB8EB;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
 
-                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#3238B4"' +
-                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#3238B4\',\'', type, '\'); return false;"' +
-                    ' href="javascript:void(\'#3238B4\')"' +
-                    ' role="option">' +
-                    '<span class="cke_colorbox" style="background-color:#3238B4;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+								                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#EB1F85"' +
+								                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#EB1F85\',\'', 'foreB', '\'); return false;"' +
+								                    ' href="javascript:void(\'#EB1F85\')"' +
+								                    ' role="option">' +
+								                    '<span class="cke_colorbox" style="background-color:#EB1F85;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
 
-                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#911B96"' +
-                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#911B96\',\'', type, '\'); return false;"' +
-                    ' href="javascript:void(\'#911B96\')"' +
-                    ' role="option">' +
-                    '<span class="cke_colorbox" style="background-color:#911B96;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+								                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#84C100"' +
+								                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#84C100\',\'', 'foreB', '\'); return false;"' +
+								                    ' href="javascript:void(\'#84C100\')"' +
+								                    ' role="option">' +
+								                    '<span class="cke_colorbox" style="background-color:#84C100;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
 
-                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#EB1F85"' +
-                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#EB1F85\',\'', type, '\'); return false;"' +
-                    ' href="javascript:void(\'#EB1F85\')"' +
-                    ' role="option">' +
-                    '<span class="cke_colorbox" style="background-color:#EB1F85;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+								                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#911B96"' +
+								                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#911B96\',\'', 'foreB', '\'); return false;"' +
+								                    ' href="javascript:void(\'#911B96\')"' +
+								                    ' role="option">' +
+								                    '<span class="cke_colorbox" style="background-color:#911B96;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
 
-                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#EB5B00"' +
-                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#EB5B00\',\'', type, '\'); return false;"' +
-                    ' href="javascript:void(\'#EB5B00\')"' +
-                    ' role="option">' +
-                    '<span class="cke_colorbox" style="background-color:#EB5B00;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+								                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#EB5B00"' +
+								                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#EB5B00\',\'', 'foreB', '\'); return false;"' +
+								                    ' href="javascript:void(\'#EB5B00\')"' +
+								                    ' role="option">' +
+								                    '<span class="cke_colorbox" style="background-color:#EB5B00;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
 
-                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#EBC900"' +
-                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#EBC900\',\'', type, '\'); return false;"' +
-                    ' href="javascript:void(\'#EBC900\')"' +
-                    ' role="option">' +
-                    '<span class="cke_colorbox" style="background-color:#EBC900;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+								                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#EBC900"' +
+								                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#EBC900\',\'', 'foreB', '\'); return false;"' +
+								                    ' href="javascript:void(\'#EBC900\')"' +
+								                    ' role="option">' +
+								                    '<span class="cke_colorbox" style="background-color:#EBC900;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
 
-                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#84C100"' +
-                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#84C100\',\'', type, '\'); return false;"' +
-                    ' href="javascript:void(\'#84C100\')"' +
-                    ' role="option">' +
-                    '<span class="cke_colorbox" style="background-color:#84C100;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
+								                output.push('<td style="text-align:center;"><a class="cke_color_box" _cke_focus=1 hidefocus=true title="#3238B4"' +
+								                    ' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#3238B4\',\'', 'foreB', '\'); return false;"' +
+								                    ' href="javascript:void(\'#3238B4\')"' +
+								                    ' role="option">' +
+								                    '<span class="cke_colorbox" style="background-color:#3238B4;width:20px;height:20px;float:none;display:inline-block;"></span></a></td>');
                 output.push('</tr><tr>');
 
                 // Render the "More Colors" button.
@@ -1075,7 +1075,15 @@ CKEDITOR.plugins.add( 'colorbutton', {
             element: 'font', attributes: { 'color': null }
         } ]
     };
-
+		
+		CKEDITOR.config.colorButton_foreBStyle = {
+		    element: 'span',
+		    styles: { 'color': '#(color)', 'font-weight': 'bold' },
+		    overrides: [ {
+		    	element: 'font', attributes: { 'color': null }
+		    } ]
+		};
+				
     CKEDITOR.config.colorButton_backStyle = {
         element: 'span',
         styles: { 'background-color': '#(color)' }
